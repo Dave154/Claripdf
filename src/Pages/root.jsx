@@ -165,12 +165,13 @@ return (
 		        id="file"
 		        multiple
 		        hidden
+            disabled={progress>0}
 		        {...register('files', {
 		          onChange: (e) => handleFileChange(e.target.files),
 		        })}
 		      />
 
-		      <label htmlFor="file"  className={`block bg-stone-900 p-2 w-full max-w-[30rem] rounded-2xl mx-auto cursor-pointer`}>Upload pdf/image</label>
+		      <label htmlFor="file"  className={`block  p-2 w-full max-w-[30rem] rounded-2xl mx-auto  ${progress >0 ? 'bg-stone-300 cursor-none' :'bg-stone-900 cursor-pointer'}`}>Upload pdf/image</label>
 
     		</form>
  			 
