@@ -23,7 +23,8 @@
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.5",
     "react-hook-form": "^7.53.2",
-    "react-quill": "^2.0.0"
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^7.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

@@ -15,13 +15,13 @@
               <div className="flex justify-between items-center relative">
               {
               	options && 
-              <div className="absolute -top-20 right-20 rounded border bg-white z-10 ">
-              	<p className="px-4  py-2 border-b cursor-pointer"
+              <div className="absolute -top-20 right-20 rounded border bg-white z-10 shadow bg-stone-100">
+              	<p className="px-4  py-2 border-b cursor-pointer  hover:bg-stone-300"
               		onClick={()=>{
               			setIsEditing(true)
               		}}
               	>View and Edit</p>
-              	<p className="px-4 py-2 cursor-pointer"
+              	<p className="px-4 py-2 cursor-pointer hover:bg-stone-300"
               		onClick={()=>setSaveas(true)}
               	>
               		Save text as
