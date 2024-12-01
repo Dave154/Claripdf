@@ -7,19 +7,32 @@ import {Link,useNavigate} from'react-router-dom'
 import jsPDF from "jspdf";
 import { Packer, Document, Paragraph } from "docx";
 import { saveAs } from "file-saver";
-
-
+import { FaArrowLeft,FaFilePdf } from "react-icons/fa";
+import { FaRegFileWord } from "react-icons/fa6";
 
  const Generated = () => {
      const navigate =useNavigate()
-     const { saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext} = useUniversal()
+     const { saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute} = useUniversal()
      const [loading, setLoading] = useState(false)
      const [tab, setTab] = useState('scrambled')
 
+
+     const saveMethodList= [
+     {
+     	method:'pdf',
+     	icon:<FaFilePdf/>
+     },
+     {
+     	method:'word',
+     	icon:<FaRegFileWord/>
+     },
+     	]
    useEffect(()=>{
-   	if(!ocrtext){
-   		navigate('/')
-   	}
+   	// if(!ocrtext){
+   	// 	alert('')
+   	// 	navigate('/')
+   	// }
+   	setCurrentRoute('Generated')
    },[])
      // useEffect(() => {
      //     if (tab === 'refined' && !refinedtext) {
@@ -63,16 +76,18 @@ import { saveAs } from "file-saver";
   };
 
      return (
-     	<section className="grid place-items-center h-screen text-stone-100 relative mt-16">
-         <div className=" bg-stone-100 w-full p-5 rounded-lg md:rounded-r-lg md:border-l-2 grid gap-4 relative">
+     	<section className="grid place-items-center h-screen text-stone-100 relative mt-16 mr-12">
+         <div className="  w-full p-5 rounded-lg md:rounded-r-lg md:border-l-2 grid gap-4 relative">
            <Link to='/'>
            	
-     		<i className="absolute top-0 left-4 text-stone-900">--</i>
+     		<i className="absolute top-0 left-2 text-stone-900">
+     			<FaArrowLeft/>
+     		</i>
            </Link>
 
         {
           saveas && 
-         <div className="absolute right-0 top-0 grid place-content-center backdrop-blur-sm w-full h-full z-20 bg-[rgba(1,1,1,.2)] rounded"
+         <div className="fixed right-0 top-0 grid place-content-center backdrop-blur-sm w-full h-full z-20 bg-[rgba(1,1,1,.2)] rounded"
           onClick={()=>{
             setSaveas(false)
           }}
@@ -81,9 +96,16 @@ import { saveAs } from "file-saver";
 
               <p className="font-semibold px-10 py-2">Save file as</p>
               {
-                ['pdf','word'].map(item=>{
+                saveMethodList.map(item=>{
 
-                return <button key={item} onClick={()=>handleDownload(item)} className='capitalize px-5 hover:bg-stone-200 py-2'>{item}</button>
+                return <button key={item.method} onClick={()=>handleDownload(item)} className='capitalize px-5 hover:bg-stone-200 py-2 flex  items-center'>
+                	<i className="basis-[10%] text-xl">
+                		{item.icon}
+                	</i>
+                	<p className="basis-[90%]">
+                		{item.method}
+                	</p>
+                </button>
                 })
               }
             </div>
@@ -95,7 +117,7 @@ import { saveAs } from "file-saver";
         {
           ['scrambled','refined'].map(item=>{
             return (
- 				<button className={`${item === tab ? 'bg-stone-900':'bg-stone-400'}  w-32 p-2 rounded-2xl capitalize`}
+ 				<button key={item} className={`${item === tab ? 'bg-stone-900':'bg-stone-400'}  w-32 p-2 rounded-2xl capitalize`}
           onClick={()=>{
 
             setTab(item)
@@ -126,7 +148,7 @@ import { saveAs } from "file-saver";
           </>
         :
         <div className="grid place-content-center w-full">
-      <p className='max-w-64'>
+      <p className='max-w-64 text-center'>
         Upload a pdf file or series of images in order and let us do the rest
       </p>
           

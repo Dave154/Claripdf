@@ -1,5 +1,8 @@
  import {useState} from 'react'
  import {useUniversal} from '.././context.jsx'
+import { IoMdMore } from "react-icons/io";
+
+
  const Preview = ({text}) => {
  	const [options,setOptions]=useState(false)
  	const {setSaveas,setIsEditing} =useUniversal()
@@ -29,9 +32,11 @@
               </div>
               }
                <p className=" font-bold text-lg"> Generated pdf</p>
-               <i className='rotate-90 text-4xl font-extrabold cursor-pointer'
+               <i className=' text-2xl cursor-pointer'
                	onClick={()=>setOptions(!options)}
-               >...</i>
+               >
+                 <IoMdMore/>
+               </i>
               </div>
             </div>
             </div>

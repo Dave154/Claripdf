@@ -10,7 +10,7 @@ import {useNavigate} from 'react-router-dom'
 
  const Root = () => {
  const navigate =useNavigate()
- const {saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext}=useUniversal()
+ const {saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext,setCurrentRoute,saveToIndexedDB}=useUniversal()
  const { register } = useForm();
  const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -42,22 +42,22 @@ const compressFile = async (file) => {
  const uploadFile =async(formData)=>{
   try {
       setProgress(1); 
-      console.log(formData)
       const response = await axios.post('https://ocr-backend-jmcd.onrender.com/api/uploadFile ', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
         onUploadProgress: (progressEvent) => {
-          console.log(progressEvent)
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           setProgress(percentCompleted);
+          console.log(percentCompleted)
         },
       });
-      console.log(response.data)
+      console.log(response.data,progress)
       setOcrtext(response.data.ocrTexts)
       setRefinedtext(response.data.refinedGPTText)
-
       navigate('/generated')
+      // Save data to IndexedDB
+      saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
     } catch (error) {
       console.error('Upload failed', error);
       alert('File upload failed!');
@@ -127,8 +127,9 @@ const handleFileUpload = async (file) => {
   const handleDragEnter = () => setIsDragging(true);
   const handleDragLeave = () => setIsDragging(false);
 
-  // Add drag listeners to the entire window
+  // Add drag listeners to the entire window && set current route to home
   useEffect(() => {
+    setCurrentRoute('Home')
     window.addEventListener('dragenter', handleDragEnter);
     window.addEventListener('dragleave', handleDragLeave);
     window.addEventListener('drop', handleDragLeave);
@@ -144,15 +145,13 @@ const handleFileUpload = async (file) => {
   
 return (
  		<>
- 		<section className='text-stone-100 p-3 shadow rounded text-center h-screen grid place-items-center'>
+ 		<section className='text-stone-100 p-3 shadow rounded text-center h-screen grid place-items-center mr-10'>
 	 		<div className=" w-full h-full p-5 rounded-lg md:rounded-l-lg flex flex-col">
  			<div className=" text-stone-900 max-w-64 mx-auto flex-grow flex items-center justify-center">
  			{
  				( progress > 0) ?
- 				<Loader open={true} text='Generating text from pdf, please wait...'/>
- 				: progress === 100 ? 
-        <p className="">Upload Successful</p>
-        :
+ 				<Loader open={true} text={  progress !==100 ? 'Uploading file....': 'Generating text from pdf, please wait...'}/>
+ 				:
  			<p>
  				Upload a pdf file or series of images in order and let us do the rest
  			</p>
