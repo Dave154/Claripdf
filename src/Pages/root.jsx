@@ -6,9 +6,17 @@ import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
 import {useUniversal} from '.././context.jsx'
 import {useNavigate} from 'react-router-dom'
+  import {FaUpload} from 'react-icons/fa6'
+
  const Root = () => {
  const navigate =useNavigate()
- const {windowWidth,dropFile,setDropFile,saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext,setCurrentRoute,saveToIndexedDB,sideWidth}=useUniversal()
+ const {
+ handleError,
+ windowWidth,dropFile,setDropFile,
+ saveas,setSaveas,isEditing,
+ setIsEditing,setOcrtext, setRefinedtext,
+ setCurrentRoute,saveToIndexedDB,sideWidth
+}=useUniversal()
  const { register } = useForm();
   const [progress, setProgress] = useState(0);
 
@@ -43,7 +51,6 @@ import {useNavigate} from 'react-router-dom'
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           setProgress(percentCompleted);
-          console.log(percentCompleted)
         },
       });
       setOcrtext(response.data.ocrTexts)
@@ -52,8 +59,8 @@ import {useNavigate} from 'react-router-dom'
       // Save data to IndexedDB
       saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
     } catch (error) {
-      console.log('Upload failed', error);
-      alert('File upload failed!');
+      console.log(error)
+      handleError(error)
       setProgress(0)
     }
  }
@@ -100,11 +107,11 @@ const handleFileUpload = async (file) => {
     // Validate files
     for (const file of files) {
       if (!allowedTypes.includes(file.type)) {
-        alert(`Unsupported file type: ${file.name}`);
+        handleError('unsupported')
         return;
       }
       if (file.size > maxFileSize) {
-        alert(`File size should not be more than 10MB: ${file.size/(1024*1024)} :${file.name}`);
+        handleError('maxfile')
         return;
       }
       if (file.type.startsWith("image/")) {
@@ -162,7 +169,14 @@ return (
 		        })}
 		      />
 
-		      <label htmlFor="file"  className={`block  p-2 w-full max-w-[30rem] rounded-2xl mx-auto  ${progress >0 ? 'bg-stone-300 cursor-none' :'bg-stone-900 cursor-pointer'}`}>Upload pdf/image</label>
+		      <label htmlFor="file"  className={`flex gap-6 items-center justify-center  p-2 w-full max-w-[30rem] rounded-2xl mx-auto  ${progress >0 ? 'bg-stone-300 cursor-none' :'bg-stone-900 cursor-pointer'}`}>
+          <i className="text-sm">
+          <FaUpload/>
+          </i>
+          <p className="">
+          Upload pdf/image
+          </p>
+          </label>
 
     		</form>
  			 

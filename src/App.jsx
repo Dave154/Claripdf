@@ -3,6 +3,7 @@ import Root from './Pages/root.jsx'
 import Generated from './Pages/generated.jsx'
 import Navigation from './components/navigation.jsx'
 import Sidebar from './components/sidebar.jsx'
+import Error from './components/error.jsx'
 import {Routes,Route,useNavigate} from 'react-router-dom'
 import {useState,useEffect} from 'react'
 import {useUniversal} from './context.jsx'
@@ -58,6 +59,7 @@ const App =()=> {
         <FaQuestion/>
       </button>
       <Sidebar/>
+      <Error/>
     </main>
   )
 }

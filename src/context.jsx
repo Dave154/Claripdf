@@ -13,6 +13,8 @@ const AppContext = React.createContext()
   const [sideWidth,setSideWidth]=useState('200')
   const [toggle,setToggle]=useState(false)
   const [windowWidth,setWindowWidth]=useState(window.innerWidth)
+  const [error,setError]=useState(false)
+  const [errorMessage,setErrorMessage]=useState('Test Test 12')
 
 const toggleSide=()=>{
 	setToggle(!toggle)
@@ -115,6 +117,17 @@ useEffect(()=>{
 },[])
 
 
+const handleError=(err)=>{
+	setError(true)
+	if(err===''|| err.message==='Network Error'){
+		setErrorMessage('Seems like you are disconnected, check internet connection and try again')
+	}else if(err==='maxfile'){
+		setErrorMessage('File size should not be more than 10MB')
+	}
+	else if(err==='unsupported') {
+			setErrorMessage('Unsupported file type')
+	}
+}
 
 
 
@@ -137,7 +150,11 @@ useEffect(()=>{
 		setSideWidth,
 		toggleSide,
 		toggle,
-		windowWidth
+		windowWidth,
+		handleError,
+		error,
+		setError,
+		errorMessage
  	}}>
  		{children}
  	</AppContext.Provider>
