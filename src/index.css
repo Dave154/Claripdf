@@ -43,10 +43,10 @@ body{
   top: 0;
   left: 0;
   z-index: 3;
-  width: 100%;
   display: flex;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: scroll;
+  overflow-y: visible !important;
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px 8px 0 0;
@@ -60,7 +60,9 @@ body{
   border-radius: 38px;
 }
 .ql-formats{
+  position: relative;
   display: flex !important;
+  z-index: 100;
 }
 .ql-container {
   width: 100%;

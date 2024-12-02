@@ -6,38 +6,32 @@ import JSZip from "jszip";
 import imageCompression from "browser-image-compression";
 import {useUniversal} from '.././context.jsx'
 import {useNavigate} from 'react-router-dom'
- 
-
  const Root = () => {
  const navigate =useNavigate()
- const {saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext,setCurrentRoute,saveToIndexedDB}=useUniversal()
+ const {dropFile,setDropFile,saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext,setCurrentRoute,saveToIndexedDB,sideWidth}=useUniversal()
  const { register } = useForm();
- const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
 
+//   // FILE COMPRESSION
+//   const fileToBlob = (file) => {
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
 
+//     reader.onload = () => resolve(new Blob([reader.result]));
+//     reader.onerror = reject;
 
+//     reader.readAsArrayBuffer(file); 
+//   });
+// };
 
-  // FILE COMPRESSION
-  const fileToBlob = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+// const compressFile = async (file) => {
+//   const blob = await fileToBlob(file);
 
-    reader.onload = () => resolve(new Blob([reader.result]));
-    reader.onerror = reject;
-
-    reader.readAsArrayBuffer(file); 
-  });
-};
-
-const compressFile = async (file) => {
-  const blob = await fileToBlob(file);
-
-  const zip = new JSZip();
-  zip.file(file.name, blob); 
-  const compressedBlob = await zip.generateAsync({ type: "blob" });
-  return compressedBlob;
-};
+//   const zip = new JSZip();
+//   zip.file(file.name, blob); 
+//   const compressedBlob = await zip.generateAsync({ type: "blob" });
+//   return compressedBlob;
+// };
 
  const uploadFile =async(formData)=>{
   try {
@@ -123,29 +117,28 @@ const handleFileUpload = async (file) => {
    
   };
 
-   // Show drop area when dragging
-  const handleDragEnter = () => setIsDragging(true);
-  const handleDragLeave = () => setIsDragging(false);
 
-  // Add drag listeners to the entire window && set current route to home
-  useEffect(() => {
+ useEffect(()=>{
+
+      if(dropFile){
+        handleFileChange(dropFile)
+        console.log(dropFile)
+        setDropFile(null)
+      }
     setCurrentRoute('Home')
-    window.addEventListener('dragenter', handleDragEnter);
-    window.addEventListener('dragleave', handleDragLeave);
-    window.addEventListener('drop', handleDragLeave);
 
-    return () => {
-      window.removeEventListener('dragenter', handleDragEnter);
-      window.removeEventListener('dragleave', handleDragLeave);
-      window.removeEventListener('drop', handleDragLeave);
-    };
-  }, []);
+ },[dropFile])
+
 
 
   
 return (
  		<>
- 		<section className='text-stone-100 p-3 shadow rounded text-center h-screen grid place-items-center mr-10'>
+ 		<section className={`text-stone-100 p-3 shadow rounded text-center h-screen grid place-items-center transition-all duration-700`}
+      style={{
+             marginLeft: window.innerWidth >= 768 ? `${sideWidth}px` : '0px',
+            }}
+    >
 	 		<div className=" w-full h-full p-5 rounded-lg md:rounded-l-lg flex flex-col">
  			<div className=" text-stone-900 max-w-64 mx-auto flex-grow flex items-center justify-center">
  			{

@@ -12,7 +12,7 @@ import { FaRegFileWord } from "react-icons/fa6";
 
  const Generated = () => {
      const navigate =useNavigate()
-     const { saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute} = useUniversal()
+     const { saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute,sideWidth} = useUniversal()
      const [loading, setLoading] = useState(false)
      const [tab, setTab] = useState('scrambled')
 
@@ -76,18 +76,22 @@ import { FaRegFileWord } from "react-icons/fa6";
   };
 
      return (
-     	<section className="grid place-items-center h-screen text-stone-100 relative mt-16 mr-12">
-         <div className="  w-full p-5 rounded-lg md:rounded-r-lg md:border-l-2 grid gap-4 relative">
-           <Link to='/'>
+     	<section className={`grid place-items-center h-screen text-stone-100 relative pt-16 transition-all duration-700`}
+     		style={{
+       			 marginLeft: window.innerWidth >= 768 ? `${sideWidth}px` : '0px',
+      			}}
+     	>
+         <div className="  w-full p-5 rounded-lg md:rounded-r-lg  grid gap-4 relative">
+           {/*<Link to='/'>
            	
      		<i className="absolute top-0 left-2 text-stone-900">
      			<FaArrowLeft/>
      		</i>
-           </Link>
+           </Link>*/}
 
         {
           saveas && 
-         <div className="fixed right-0 top-0 grid place-content-center backdrop-blur-sm w-full h-full z-20 bg-[rgba(1,1,1,.2)] rounded"
+         <div className="fixed right-0 top-0 grid place-content-center backdrop-blur-sm w-full h-full z-40 bg-[rgba(1,1,1,.2)] rounded"
           onClick={()=>{
             setSaveas(false)
           }}
@@ -98,7 +102,7 @@ import { FaRegFileWord } from "react-icons/fa6";
               {
                 saveMethodList.map(item=>{
 
-                return <button key={item.method} onClick={()=>handleDownload(item)} className='capitalize px-5 hover:bg-stone-200 py-2 flex  items-center'>
+                return <button key={item.method} onClick={()=>handleDownload(item.method)} className='capitalize px-5 hover:bg-stone-200 py-2 flex  items-center'>
                 	<i className="basis-[10%] text-xl">
                 		{item.icon}
                 	</i>
@@ -112,12 +116,12 @@ import { FaRegFileWord } from "react-icons/fa6";
          </div>
         }
 
-	 			<div className="flex justify-between ">
+	 			<div className="flex justify-between gap-3 ">
 
         {
           ['scrambled','refined'].map(item=>{
             return (
- 				<button key={item} className={`${item === tab ? 'bg-stone-900':'bg-stone-400'}  w-32 p-2 rounded-2xl capitalize`}
+ 				<button key={item} className={`${item === tab ? 'bg-stone-900':'bg-stone-400'}  w-28 text-sm p-2 rounded-2xl capitalize`}
           onClick={()=>{
 
             setTab(item)

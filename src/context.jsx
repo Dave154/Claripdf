@@ -9,10 +9,20 @@ const AppContext = React.createContext()
   const [ocrtext,setOcrtext]=useState('')
   const [refinedtext, setRefinedtext] = useState('')
   const [currentRoute,setCurrentRoute] = useState('Home')
+  const [dropFile,setDropFile]=useState(null)
+  const [sideWidth,setSideWidth]=useState('200')
+  const [toggle,setToggle]=useState(false)
 
 
+const toggleSide=()=>{
+	setToggle(!toggle)
+	if(toggle){
+	setSideWidth('50')
 
-
+}else{
+	setSideWidth('200')
+}
+}
 
 // Save to indexedDB
 const openDb=(dbName, storeName) =>{
@@ -111,7 +121,13 @@ useEffect(()=>{
  		setRefinedtext,
  		currentRoute,
  		setCurrentRoute,
-		saveToIndexedDB
+		saveToIndexedDB,
+		dropFile,
+		setDropFile,
+		sideWidth,
+		setSideWidth,
+		toggleSide,
+		toggle
  	}}>
  		{children}
  	</AppContext.Provider>
