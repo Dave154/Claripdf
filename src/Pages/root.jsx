@@ -8,7 +8,7 @@ import {useUniversal} from '.././context.jsx'
 import {useNavigate} from 'react-router-dom'
  const Root = () => {
  const navigate =useNavigate()
- const {dropFile,setDropFile,saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext,setCurrentRoute,saveToIndexedDB,sideWidth}=useUniversal()
+ const {windowWidth,dropFile,setDropFile,saveas,setSaveas,isEditing,setIsEditing,setOcrtext, setRefinedtext,setCurrentRoute,saveToIndexedDB,sideWidth}=useUniversal()
  const { register } = useForm();
   const [progress, setProgress] = useState(0);
 
@@ -46,14 +46,13 @@ import {useNavigate} from 'react-router-dom'
           console.log(percentCompleted)
         },
       });
-      console.log(response.data,progress)
       setOcrtext(response.data.ocrTexts)
       setRefinedtext(response.data.refinedGPTText)
       navigate('/generated')
       // Save data to IndexedDB
       saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
     } catch (error) {
-      console.error('Upload failed', error);
+      console.log('Upload failed', error);
       alert('File upload failed!');
       setProgress(0)
     }
@@ -136,7 +135,7 @@ return (
  		<>
  		<section className={`text-stone-100 p-3 shadow rounded text-center h-screen grid place-items-center transition-all duration-700`}
       style={{
-             marginLeft: window.innerWidth >= 768 ? `${sideWidth}px` : '0px',
+             marginLeft: windowWidth >= 768 ? `${sideWidth}px` : '0px',
             }}
     >
 	 		<div className=" w-full h-full p-5 rounded-lg md:rounded-l-lg flex flex-col">

@@ -12,7 +12,7 @@ const AppContext = React.createContext()
   const [dropFile,setDropFile]=useState(null)
   const [sideWidth,setSideWidth]=useState('200')
   const [toggle,setToggle]=useState(false)
-
+  const [windowWidth,setWindowWidth]=useState(window.innerWidth)
 
 const toggleSide=()=>{
 	setToggle(!toggle)
@@ -23,6 +23,15 @@ const toggleSide=()=>{
 	setSideWidth('200')
 }
 }
+
+ const handleresize=()=>{
+ 		setWindowWidth(window.innerWidth)
+ 		setToggle(false)
+ }
+		useEffect(()=>{
+			window.addEventListener('resize',handleresize)
+			return ()=>window.removeEventListener('resize',handleresize)
+		},[windowWidth])
 
 // Save to indexedDB
 const openDb=(dbName, storeName) =>{
@@ -127,7 +136,8 @@ useEffect(()=>{
 		sideWidth,
 		setSideWidth,
 		toggleSide,
-		toggle
+		toggle,
+		windowWidth
  	}}>
  		{children}
  	</AppContext.Provider>

@@ -5,14 +5,15 @@
 import Preview from '.././components/preview.jsx'
 import {Link,useNavigate} from'react-router-dom'
 import jsPDF from "jspdf";
-import { Packer, Document, Paragraph } from "docx";
+import { Document, Packer, Paragraph, TextRun } from "docx";
+import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
 import { FaArrowLeft,FaFilePdf } from "react-icons/fa";
 import { FaRegFileWord } from "react-icons/fa6";
 
  const Generated = () => {
      const navigate =useNavigate()
-     const { saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute,sideWidth} = useUniversal()
+     const {windowWidth, saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute,sideWidth} = useUniversal()
      const [loading, setLoading] = useState(false)
      const [tab, setTab] = useState('scrambled')
 
@@ -53,18 +54,44 @@ import { FaRegFileWord } from "react-icons/fa6";
     const text = tab === 'scrambled' ? ocrtext: refinedtext
     if (type === "pdf") {
       // PDF generation
-      const doc = new jsPDF();
-      doc.text(text, 10, 10);
-      doc.save("claripdf_document.pdf");
+     const editor = document.querySelector(".ql-container");
+    
+    html2canvas(editor).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210; 
+      const pageHeight = 297; 
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("claripdf_document.pdf");
+    });
     } else if (type === "word") {
       // Word generation
+    const parser = new DOMParser();
+    const parsed = parser.parseFromString(text, "text/html");
+    const paragraphs = Array.from(parsed.body.children);
+
       const doc = new Document({
-        sections: [
-          {
-            properties: {},
-            children: [new Paragraph(text.replace(/<[^>]*>/g, ""))],
-          },
-        ],
+       sections: [
+        {
+          children: paragraphs.map((p) => {
+            const textContent = p.textContent || "";
+            const bold = p.querySelector("strong, b") !== null;
+            const italic = p.querySelector("em, i") !== null;
+
+            return new Paragraph({
+              children: [
+                new TextRun({
+                  text: textContent,
+                  bold: bold,
+                  italics: italic,
+                }),
+              ],
+            });
+          }),
+        },
+      ],
       });
 
       Packer.toBlob(doc).then((blob) => {
@@ -78,7 +105,7 @@ import { FaRegFileWord } from "react-icons/fa6";
      return (
      	<section className={`grid place-items-center h-screen text-stone-100 relative pt-16 transition-all duration-700`}
      		style={{
-       			 marginLeft: window.innerWidth >= 768 ? `${sideWidth}px` : '0px',
+       			 marginLeft:windowWidth>= 768 ? `${sideWidth}px` : '0px',
       			}}
      	>
          <div className="  w-full p-5 rounded-lg md:rounded-r-lg  grid gap-4 relative">
@@ -147,7 +174,7 @@ import { FaRegFileWord } from "react-icons/fa6";
             !isEditing ? 
             <Preview text={ocrtext}/>
             :
-          <Editor text={ocrtext}/>
+          <Editor text={ocrtext} where='scrambled'/>
            }
           </>
         :
@@ -167,7 +194,7 @@ import { FaRegFileWord } from "react-icons/fa6";
           !isEditing ?
           <Preview text={refinedtext}/>
           :
-          <Editor text={refinedtext}/>
+          <Editor text={refinedtext} where='refined'/>
         }
         
       </div>  

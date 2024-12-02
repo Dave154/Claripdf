@@ -32,13 +32,13 @@ const App =()=> {
   return (
     <main 
       onDragOver={handleDragOver}
-      // onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
          {/*Drag and drop*/}
       {
         isDragging &&
       <div className="fixed bg-[rgba(10,10,10,.2)] inset-0 z-30 backdrop-blur p-5"
+      onDragLeave={handleDragLeave}
         
       >
         <div className="border-8 border-dashed place-items-center grid place-items-center h-full font-semibold text-xl"

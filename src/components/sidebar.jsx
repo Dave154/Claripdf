@@ -6,7 +6,7 @@
   import MenuBar from './menuBar.jsx'
   const Sidebar = () => {
   	const navigate=useNavigate()
-  	const {currentRoute,sideWidth,toggleSide,toggle}=useUniversal()
+  	const {currentRoute,sideWidth,toggleSide,toggle,windowWidth}=useUniversal()
 
   		const sidebarStuffs=[
   			 {
@@ -32,7 +32,7 @@
 			
 	  		<aside className={`bg-stone-50 h-full overflow-x-hidden shadow transition-all duration-700`}
 	  			style={{
-       			 width: window.innerWidth >= 768 ? `${sideWidth}px` : toggle ? `${sideWidth}px`:'0px',
+       			 width:windowWidth >= 768 ? `${sideWidth}px` : toggle ? `${sideWidth}px`:'0px',
       			}}
 	  		>
 

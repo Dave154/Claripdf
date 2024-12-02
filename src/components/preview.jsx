@@ -13,7 +13,7 @@ import { IoMdMore } from "react-icons/io";
             </p>
             <div className="border grid place-items-between rounded-xl p-3 bg-white w-full">
             <p className= 'h-72 line-clamp-6 overflow-hidden text-left'>
-              {text}
+              {text.replace(/<[^>]+>/g, '')}
             </p>
               <div className="flex justify-between items-center relative">
               {

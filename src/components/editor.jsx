@@ -2,10 +2,11 @@
  import ReactQuill from "react-quill";
  import "react-quill/dist/quill.snow.css";
  import {useUniversal} from '.././context.jsx'
+ import {FaDownload} from 'react-icons/fa'
 
 
- const Editor = ({text}) => {
- const {saveas,setSaveas}= useUniversal()
+ const Editor = ({text,where}) => {
+ const {saveas,setSaveas,ocrtext,setOcrtext,refinedtext, setRefinedtext,saveToIndexedDB,setIsEditing}= useUniversal()
 
 
 const modules = {
@@ -37,24 +38,47 @@ const formats = [
   "link",
   "image",
 ];
- 	
+ 	    const setExtractedText=(e)=>{
+          if(where=== 'scrambled'){
+            console.log(e)
+            setOcrtext(e)
+          }else {
+            setRefinedtext(e)
+          }
+      }
+
      return (
          <div className="w-full grid grid-rows-[1fr_40px] gap-3">
           <ReactQuill
             value={text}
-            // onChange={setExtractedText}
+             onChange={setExtractedText}
             theme="snow"
             className="h-full overflow-auto max-w-full"
              modules={modules}
             formats={formats}
             
           />
-          <div className="bg-stone-900 rounded-xl text-stone-100 relative grid place-content-center cursor-pointer"
+          <div className='flex gap-3'>
+
+
+            <button className="bg-stone-500 rounded-xl text-stone-100 relative grid place-content-center cursor-pointer w-full"
+            onClick={()=>{
+                 saveToIndexedDB('db', 'claridb', { Ocr:ocrtext, refined:refinedtext });
+                 setIsEditing(false)
+              
+            }}
+          >
+           Save 
+          </button>
+
+           <button className="bg-stone-900 rounded-xl text-stone-100 relative grid place-content-center cursor-pointer w-10 h-10"
             onClick={()=>{
               setSaveas(true)
             }}
-          >
-           Save text as
+          > 
+
+           <FaDownload/>
+          </button>
           </div>
 
          
