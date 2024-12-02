@@ -6,7 +6,7 @@ import Preview from '.././components/preview.jsx'
 import {Link,useNavigate} from'react-router-dom'
 import jsPDF from "jspdf";
 import { Document, Packer, Paragraph, TextRun } from "docx";
-import html2canvas from "html2canvas";
+import html2pdf from "html2pdf.js";
 import { saveAs } from "file-saver";
 import { FaArrowLeft,FaFilePdf } from "react-icons/fa";
 import { FaRegFileWord } from "react-icons/fa6";
@@ -54,18 +54,16 @@ import { FaRegFileWord } from "react-icons/fa6";
     const text = tab === 'scrambled' ? ocrtext: refinedtext
     if (type === "pdf") {
       // PDF generation
-     const editor = document.querySelector(".ql-container");
-    
-    html2canvas(editor).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const imgWidth = 210; 
-      const pageHeight = 297; 
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+     const editor = document.createElement("div");
+     editor.innerHTML = text
+       const options = {
+      margin: 10,
+      filename: "claripdf_document.pdf",
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("claripdf_document.pdf");
-    });
+    html2pdf().from(editor).set(options).save();
     } else if (type === "word") {
       // Word generation
     const parser = new DOMParser();
