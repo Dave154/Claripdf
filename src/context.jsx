@@ -14,7 +14,7 @@ const AppContext = React.createContext()
   const [toggle,setToggle]=useState(false)
   const [windowWidth,setWindowWidth]=useState(window.innerWidth)
   const [error,setError]=useState(false)
-  const [errorMessage,setErrorMessage]=useState('Test Test 12')
+  const [errorMessage,setErrorMessage]=useState('')
 
 const toggleSide=()=>{
 	setToggle(!toggle)
@@ -126,6 +126,8 @@ const handleError=(err)=>{
 	}
 	else if(err==='unsupported') {
 			setErrorMessage('Unsupported file type')
+	}else{
+		setErrorMessage('Something went wrong, Try again')
 	}
 }
 
