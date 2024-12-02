@@ -1,5 +1,5 @@
 import {useUniversal} from '.././context.jsx'
-import MenuBar from './menubar.jsx'
+import MenuBar from './menuBar.jsx'
  const Navigation = () => {
  	const {sideWidth}=useUniversal()
  	return (
