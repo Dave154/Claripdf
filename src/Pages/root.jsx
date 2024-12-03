@@ -41,7 +41,12 @@ import {useNavigate} from 'react-router-dom'
 //   return compressedBlob;
 // };
 
- const uploadFile =async(formData)=>{
+ const uploadFile =async(files)=>{
+   const formData = new FormData();
+   formData.append("file", files);
+   console.log(formData)
+  saveToIndexedDB('db', 'claridb', { Ocr:'tytyty', refined:' responsedatarefinedGPTText' });
+
   try {
       setProgress(1); 
       const response = await axios.post('https://ocr-backend-jmcd.onrender.com/api/uploadFile ', formData, {
@@ -57,7 +62,7 @@ import {useNavigate} from 'react-router-dom'
       setRefinedtext(response.data.refinedGPTText)
       navigate('/generated')
       // Save data to IndexedDB
-      saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
+      // saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
     } catch (error) {
       console.log(error)
       handleError(error)
@@ -66,44 +71,60 @@ import {useNavigate} from 'react-router-dom'
  }
 
 
-const handleImageUpload = async (files) => {
-  try {
-    const options = {
+// const handleImageUpload = async (files) => {
+//   try {
+//     const options = {
+//       maxSizeMB: 1,
+//       maxWidthOrHeight: 1920,
+//       useWebWorker: true,
+//     };
+
+//     const compressedImage = await imageCompression(files, options);
+
+//     const formData = new FormData();
+//     formData.append("files", compressedImage, files.name);
+//     await uploadFile(formData);
+//   } catch (error) {
+//     console.error("Error compressing image:", error);
+//   }
+// };
+ 
+ // FOR PDF'S
+// const handleFileUpload = async (files) => {
+//   const formData = new FormData();
+//   formData.append("files", files);
+
+//   console.log(formData,files)
+// };
+
+
+const compressfile=async(file)=>{
+  if(file.type.startsWith('image/')){
+     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
-
-    const compressedImage = await imageCompression(files, options);
-
-    const formData = new FormData();
-    formData.append("files", compressedImage, files.name);
-    await uploadFile(formData);
-  } catch (error) {
-    console.error("Error compressing image:", error);
+    const compressedImage = await imageCompression(file, options);
+    return compressedImage;
+  }else{
+      return file
   }
-};
- 
- // FOR PDF'S
-const handleFileUpload = async (files) => {
-  const formData = new FormData();
-  formData.append("files", files);
 
-  await uploadFile(formData);
-};
+}
 
 
   const handleFileChange = async (files) => {
+    let validFiles =[];
+    let compressedFiles=[];
+    let numberOfPdf=0;
     const allowedTypes = [
       'image/png',
       'image/jpeg',
       'image/jpg',
       'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ];
     const maxFileSize = 10 * 1024 * 1024; 
-
     // Validate files
     for (const file of files) {
       if (!allowedTypes.includes(file.type)) {
@@ -114,12 +135,27 @@ const handleFileUpload = async (files) => {
         handleError('maxfile')
         return;
       }
-      if (file.type.startsWith("image/")) {
-      await handleImageUpload(file);
-    } else {
-      await handleFileUpload(file);
-    }
+      validFiles.push(file)
   }
+    for (const file of validFiles){
+        if(validFiles[0].type.split('/')[0] !== file.type.split('/')[0]){
+          handleError('different files')
+          return;
+        }else if(file.type==='application/pdf'){
+            numberOfPdf = numberOfPdf + 1
+            if(numberOfPdf >1){
+            console.log(numberOfPdf)
+            handleError(`multiple Pdf`)
+            return;
+            }
+        }
+        
+          const compressed= await compressfile(file)
+          compressedFiles.push(compressed)
+        
+    }
+
+      uploadFile(compressedFiles)
    
   };
 
@@ -158,6 +194,7 @@ return (
  			</div>
  			
  			 <form>
+        <p className="text-xs text-center text-red-400 mb-2">*  File size should not exceed 10MB  *</p>
 		      <input
 		        type="file"
 		        id="file"

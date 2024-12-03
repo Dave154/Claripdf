@@ -15,6 +15,8 @@ const AppContext = React.createContext()
   const [windowWidth,setWindowWidth]=useState(window.innerWidth)
   const [error,setError]=useState(false)
   const [errorMessage,setErrorMessage]=useState('')
+  const [history,setHistory]=useState([])
+  const [currentId,setCurrentId]=useState(null)
 
 const toggleSide=()=>{
 	setToggle(!toggle)
@@ -58,8 +60,6 @@ const deleteOldData=async (dbName, storeName) =>{
   const store = transaction.objectStore(storeName);
 
   const request = store.openCursor();
-  const now = Date.now();
-  // const tenDays = 10 * 24 * 60 * 60 * 1000; 
 
   request.onsuccess = (event) => {
     const cursor = event.target.result;
@@ -77,7 +77,7 @@ const deleteOldData=async (dbName, storeName) =>{
 
 // Function to save data to IndexedDB
 const  saveToIndexedDB=async(dbName, storeName, data) =>{
-  deleteOldData('db', 'claridb',);
+  // deleteOldData('db', 'claridb',);
   const db = await openDb(dbName, storeName);
 
   const transaction = db.transaction(storeName, "readwrite");
@@ -93,24 +93,38 @@ const  saveToIndexedDB=async(dbName, storeName, data) =>{
   transaction.onerror = () => console.error("Error saving data.");
 }
 
-const getSaveddata=async(dbName, storeName)=> {
+const getSaveddata=async(dbName, storeName,id)=> {
   const db = await openDb(dbName, storeName);
 
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(storeName, "readonly");
     const store = transaction.objectStore(storeName);
-    const request = store.getAll(); // Retrieve all records
+    const request = id ? store.get(id): store.getAll(); // Retrieve all records or retrieve but id
 
     request.onsuccess = (event) => resolve(event.target.result);
     request.onerror = () => reject(request.error);
   });
 }
 
+  const getDataByKey=async(id)=>{
+  	  const data = await getSaveddata('db', 'claridb',id)
+  	  setOcrtext(data.data.Ocr)
+  	  setRefinedtext(data.data.refined)
+  	  setCurrentId(id)
+  }
+
 useEffect(()=>{
 	getSaveddata('db', 'claridb')
   .then(data => {
+  		const tempHist=[]
+  	data.map(item=>{
+  		tempHist.push({previewTxt:item.data.refined.slice(0,25), id:item.id,timestamp:new Date(item.timestamp).toISOString().split('T')[0] })
+  	})
+  		setHistory(tempHist)
+  		console.log(tempHist)
   	setOcrtext(data[0].data.Ocr)
   	setRefinedtext(data[0].data.refined)
+  	setCurrentId(data[0].id)
   })
   .catch(error => console.error('Error retrieving data:', error));
 
@@ -119,14 +133,20 @@ useEffect(()=>{
 
 const handleError=(err)=>{
 	setError(true)
-	if(err===''|| err.message==='Network Error'){
+	if(err.message==='Network Error'){
 		setErrorMessage('Seems like you are disconnected, check internet connection and try again')
 	}else if(err==='maxfile'){
 		setErrorMessage('File size should not be more than 10MB')
 	}
 	else if(err==='unsupported') {
 			setErrorMessage('Unsupported file type')
-	}else{
+	}else if(err ==='different files'){
+       setErrorMessage('Upload Failed — All files must be of the same type. Please select files with a consistent format and try again.')
+	}
+	else if(err ==='multiple Pdf'){
+       setErrorMessage('Only one PDF can be uploaded at a time')
+   }
+	else{
 		setErrorMessage('Something went wrong, Try again')
 	}
 }
@@ -156,7 +176,10 @@ const handleError=(err)=>{
 		handleError,
 		error,
 		setError,
-		errorMessage
+		errorMessage,
+		history,
+		getDataByKey,
+		currentId
  	}}>
  		{children}
  	</AppContext.Provider>

@@ -55,9 +55,12 @@ const App =()=> {
         <Route path='/' element={<Root/>}/>
         <Route path='/generated' element={<Generated/>}/>
       </Routes>
-      <button className="fixed bottom-4 right-4 rounded-full border w-7 h-7 grid place-content-center bg-white hover:shadow-xl hover:bg-stone-50 text-sm ">
+      <div className="fixed bottom-4 group right-4">
+        <span className="text-sm border rounded-xl shadow px-2 py-1 absolute -left-8 invisible opacity-0 group-hover:opacity-100 group-hover:-top-8 group-hover:visible transition-opacity duration-500">Help</span>
+      <button className="rounded-full border w-7 h-7 grid place-content-center bg-white hover:shadow-xl hover:bg-stone-50 text-sm ">
         <FaQuestion/>
       </button>
+      </div>
       <Sidebar/>
       <Error/>
     </main>

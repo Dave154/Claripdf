@@ -1,7 +1,7 @@
- import { useState, useCallback, useEffect } from 'react'
- import { useUniversal } from '.././context.jsx'
- import Loader from '.././components/loader.jsx'
- import Editor from '.././components/editor.jsx'
+import { useState, useCallback, useEffect } from 'react'
+import { useUniversal } from '.././context.jsx'
+import Loader from '.././components/loader.jsx'
+import Editor from '.././components/editor.jsx'
 import Preview from '.././components/preview.jsx'
 import {Link,useNavigate} from'react-router-dom'
 import jsPDF from "jspdf";
@@ -29,26 +29,8 @@ import { FaRegFileWord } from "react-icons/fa6";
      },
      	]
    useEffect(()=>{
-   	// if(!ocrtext){
-   	// 	alert('')
-   	// 	navigate('/')
-   	// }
    	setCurrentRoute('Generated')
    },[])
-     // useEffect(() => {
-     //     if (tab === 'refined' && !refinedtext) {
-     //         getRefinedtext()
-     //     }
-     // }, [tab])
-
-     // const getRefinedtext = async () => {
-     //     try {
-     //         setLoading(true)
-     //     } catch (err) {
-     //         setLoading(false)
-
-     //     }
-     // }
 
    const handleDownload = (type) => {
     const text = tab === 'scrambled' ? ocrtext: refinedtext
@@ -107,13 +89,6 @@ import { FaRegFileWord } from "react-icons/fa6";
       			}}
      	>
          <div className="  w-full p-5 rounded-lg md:rounded-r-lg  grid gap-4 relative">
-           {/*<Link to='/'>
-           	
-     		<i className="absolute top-0 left-2 text-stone-900">
-     			<FaArrowLeft/>
-     		</i>
-           </Link>*/}
-
         {
           saveas && 
          <div className="fixed right-0 top-0 grid place-content-center backdrop-blur-sm w-full h-full z-40 bg-[rgba(1,1,1,.2)] rounded"

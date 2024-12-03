@@ -7,13 +7,13 @@ import { IoMdMore } from "react-icons/io";
  	const [options,setOptions]=useState(false)
  	const {setSaveas,setIsEditing} =useUniversal()
  	return (
- 		<div className="w-full grid place-items-between py-5 ">
+ 		<div className="w-full grid place-items-between py-5 overflow-hidden ">
             <p className="font-bold text-lg">
               Text generated from pdf, see below
             </p>
             <div className="border grid place-items-between rounded-xl p-3 bg-white w-full">
             <p className= 'h-72 line-clamp-6 overflow-hidden text-left'>
-              {text.replace(/<[^>]+>/g, '')}
+              {text?.replace(/<[^>]+>/g, '')}
             </p>
               <div className="flex justify-between items-center relative">
               {
