@@ -66,7 +66,7 @@ import {useNavigate} from 'react-router-dom'
  }
 
 
-const handleImageUpload = async (file) => {
+const handleImageUpload = async (files) => {
   try {
     const options = {
       maxSizeMB: 1,
@@ -74,19 +74,20 @@ const handleImageUpload = async (file) => {
       useWebWorker: true,
     };
 
-    const compressedImage = await imageCompression(file, options);
+    const compressedImage = await imageCompression(files, options);
 
     const formData = new FormData();
-    formData.append("file", compressedImage, file.name);
+    formData.append("files", compressedImage, files.name);
     await uploadFile(formData);
   } catch (error) {
     console.error("Error compressing image:", error);
   }
 };
-
-const handleFileUpload = async (file) => {
+ 
+ // FOR PDF'S
+const handleFileUpload = async (files) => {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("files", files);
 
   await uploadFile(formData);
 };
@@ -97,7 +98,6 @@ const handleFileUpload = async (file) => {
       'image/png',
       'image/jpeg',
       'image/jpg',
-      'image/gif',
       'application/pdf',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

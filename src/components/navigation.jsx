@@ -12,7 +12,7 @@ import MenuBar from './menuBar.jsx'
  			<div className="md:hidden -mt-5">
  				<MenuBar/>
  			</div>
- 			 <h2 className="text-2xl font-extrabold text-stone-600 leading-10 ">
+ 			 <h2 className="text-lg font-extrabold text-stone-600 leading-10 text-center">
  			 	ClariPdf
  			 </h2>
  		</div>

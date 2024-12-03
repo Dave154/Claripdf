@@ -10,7 +10,7 @@ const AppContext = React.createContext()
   const [refinedtext, setRefinedtext] = useState('')
   const [currentRoute,setCurrentRoute] = useState('Home')
   const [dropFile,setDropFile]=useState(null)
-  const [sideWidth,setSideWidth]=useState('200')
+  const [sideWidth,setSideWidth]=useState('250')
   const [toggle,setToggle]=useState(false)
   const [windowWidth,setWindowWidth]=useState(window.innerWidth)
   const [error,setError]=useState(false)
@@ -22,7 +22,7 @@ const toggleSide=()=>{
 	setSideWidth('50')
 
 }else{
-	setSideWidth('200')
+	setSideWidth('250')
 }
 }
 
