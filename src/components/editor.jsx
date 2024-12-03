@@ -6,7 +6,7 @@
 
 
  const Editor = ({text,where}) => {
- const {saveas,setSaveas,ocrtext,setOcrtext,refinedtext, setRefinedtext,saveToIndexedDB,setIsEditing}= useUniversal()
+ const {saveas,setSaveas,ocrtext,setOcrtext,refinedtext, setRefinedtext,saveToIndexedDB,deleteOldData,setIsEditing,currentId}= useUniversal()
 
 
 const modules = {
@@ -63,6 +63,7 @@ const formats = [
 
             <button className="bg-stone-500 rounded-xl text-stone-100 relative grid place-content-center cursor-pointer w-full"
             onClick={()=>{
+                 deleteOldData(currentId)
                  saveToIndexedDB('db', 'claridb', { Ocr:ocrtext, refined:refinedtext });
                  setIsEditing(false)
               

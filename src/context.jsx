@@ -54,30 +54,27 @@ const openDb=(dbName, storeName) =>{
   });
 }
 
-const deleteOldData=async (dbName, storeName) =>{
+const deleteOldData=async (id) =>{
+  const dbName= 'db'
+  const storeName= 'claridb'
   const db = await openDb(dbName, storeName);
-  const transaction = db.transaction(storeName, "readwrite");
-  const store = transaction.objectStore(storeName);
 
-  const request = store.openCursor();
+   return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+    const request = store.delete(id); // Delete the record by key
+    request.onsuccess = () => {
+      resolve();
+    };
+    request.onerror = () => reject(request.error);
+  });
 
-  request.onsuccess = (event) => {
-    const cursor = event.target.result;
-    if (cursor) {
-      const mostRecentlyGenerated = cursor.value;
-      const age = now - mostRecentlyGenerated.timestamp;
-        store.delete(cursor.key); 
-        console.log("Deleted expired record:", mostRecentlyGenerated);
-      cursor.continue();
-    }
-  };
-
-  request.onerror = () => console.error("Error deleting data.");
 }
+
+
 
 // Function to save data to IndexedDB
 const  saveToIndexedDB=async(dbName, storeName, data) =>{
-  // deleteOldData('db', 'claridb',);
   const db = await openDb(dbName, storeName);
 
   const transaction = db.transaction(storeName, "readwrite");
@@ -120,8 +117,8 @@ useEffect(()=>{
   	data.map(item=>{
   		tempHist.push({previewTxt:item.data.refined.slice(0,25), id:item.id,timestamp:new Date(item.timestamp).toISOString().split('T')[0] })
   	})
-  		setHistory(tempHist)
-  		console.log(tempHist)
+  	tempHist.sort((a,b)=>new Date(b.timestamp) - new Date(a.timestamp))
+  	setHistory(tempHist)
   	setOcrtext(data[0].data.Ocr)
   	setRefinedtext(data[0].data.refined)
   	setCurrentId(data[0].id)
@@ -179,7 +176,8 @@ const handleError=(err)=>{
 		errorMessage,
 		history,
 		getDataByKey,
-		currentId
+		currentId,
+		deleteOldData
  	}}>
  		{children}
  	</AppContext.Provider>

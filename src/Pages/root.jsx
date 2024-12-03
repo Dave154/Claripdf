@@ -20,33 +20,10 @@ import {useNavigate} from 'react-router-dom'
  const { register } = useForm();
   const [progress, setProgress] = useState(0);
 
-//   // FILE COMPRESSION
-//   const fileToBlob = (file) => {
-//   return new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-
-//     reader.onload = () => resolve(new Blob([reader.result]));
-//     reader.onerror = reject;
-
-//     reader.readAsArrayBuffer(file); 
-//   });
-// };
-
-// const compressFile = async (file) => {
-//   const blob = await fileToBlob(file);
-
-//   const zip = new JSZip();
-//   zip.file(file.name, blob); 
-//   const compressedBlob = await zip.generateAsync({ type: "blob" });
-//   return compressedBlob;
-// };
 
  const uploadFile =async(files)=>{
    const formData = new FormData();
-   formData.append("file", files);
-   console.log(formData)
-  saveToIndexedDB('db', 'claridb', { Ocr:'tytyty', refined:' responsedatarefinedGPTText' });
-
+   formData.append("files", files);
   try {
       setProgress(1); 
       const response = await axios.post('https://ocr-backend-jmcd.onrender.com/api/uploadFile ', formData, {
@@ -62,41 +39,13 @@ import {useNavigate} from 'react-router-dom'
       setRefinedtext(response.data.refinedGPTText)
       navigate('/generated')
       // Save data to IndexedDB
-      // saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
+       saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
     } catch (error) {
       console.log(error)
       handleError(error)
       setProgress(0)
     }
  }
-
-
-// const handleImageUpload = async (files) => {
-//   try {
-//     const options = {
-//       maxSizeMB: 1,
-//       maxWidthOrHeight: 1920,
-//       useWebWorker: true,
-//     };
-
-//     const compressedImage = await imageCompression(files, options);
-
-//     const formData = new FormData();
-//     formData.append("files", compressedImage, files.name);
-//     await uploadFile(formData);
-//   } catch (error) {
-//     console.error("Error compressing image:", error);
-//   }
-// };
- 
- // FOR PDF'S
-// const handleFileUpload = async (files) => {
-//   const formData = new FormData();
-//   formData.append("files", files);
-
-//   console.log(formData,files)
-// };
-
 
 const compressfile=async(file)=>{
   if(file.type.startsWith('image/')){
