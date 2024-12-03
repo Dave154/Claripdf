@@ -17,6 +17,7 @@ const AppContext = React.createContext()
   const [errorMessage,setErrorMessage]=useState('')
   const [history,setHistory]=useState([])
   const [currentId,setCurrentId]=useState(null)
+  const [saved,setSaved]=useState(false)
 
 const toggleSide=()=>{
 	setToggle(!toggle)
@@ -70,7 +71,19 @@ const deleteOldData=async (id) =>{
   });
 
 }
+// Retrieve all records or retrieve but id
+const getSaveddata=async(dbName, storeName,id)=> {
+  const db = await openDb(dbName, storeName);
 
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readonly");
+    const store = transaction.objectStore(storeName);
+    const request = id ? store.get(id): store.getAll(); 
+
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = () => reject(request.error);
+  });
+}
 
 
 // Function to save data to IndexedDB
@@ -86,22 +99,10 @@ const  saveToIndexedDB=async(dbName, storeName, data) =>{
   };
 
   store.add(mostRecentlyGenerated);
-  transaction.oncomplete = () => console.log("Data saved successfully.");
+  transaction.oncomplete = () =>console.log("Data saved successfully.") ;
   transaction.onerror = () => console.error("Error saving data.");
 }
 
-const getSaveddata=async(dbName, storeName,id)=> {
-  const db = await openDb(dbName, storeName);
-
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(storeName, "readonly");
-    const store = transaction.objectStore(storeName);
-    const request = id ? store.get(id): store.getAll(); // Retrieve all records or retrieve but id
-
-    request.onsuccess = (event) => resolve(event.target.result);
-    request.onerror = () => reject(request.error);
-  });
-}
 
   const getDataByKey=async(id)=>{
   	  const data = await getSaveddata('db', 'claridb',id)
@@ -111,21 +112,25 @@ const getSaveddata=async(dbName, storeName,id)=> {
   }
 
 useEffect(()=>{
+	// setSaved(false)
 	getSaveddata('db', 'claridb')
   .then(data => {
   		const tempHist=[]
   	data.map(item=>{
-  		tempHist.push({previewTxt:item.data.refined.slice(0,25), id:item.id,timestamp:new Date(item.timestamp).toISOString().split('T')[0] })
+  		tempHist.unshift({previewTxt:item.data.refined?.slice(0,25), id:item.id,timestamp:new Date(item.timestamp).toISOString().split('T')[0] })
   	})
   	tempHist.sort((a,b)=>new Date(b.timestamp) - new Date(a.timestamp))
+  	console.log(tempHist)
   	setHistory(tempHist)
+  	if(!ocrtext){
   	setOcrtext(data[0].data.Ocr)
   	setRefinedtext(data[0].data.refined)
   	setCurrentId(data[0].id)
+  	}
   })
   .catch(error => console.error('Error retrieving data:', error));
-
-},[])
+  
+},[ocrtext,refinedtext,saved])
 
 
 const handleError=(err)=>{
@@ -175,9 +180,12 @@ const handleError=(err)=>{
 		setError,
 		errorMessage,
 		history,
+		setHistory,
 		getDataByKey,
 		currentId,
-		deleteOldData
+		deleteOldData,
+		saved,
+		setSaved
  	}}>
  		{children}
  	</AppContext.Provider>

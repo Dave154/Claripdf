@@ -6,7 +6,11 @@
 
 
  const Editor = ({text,where}) => {
- const {saveas,setSaveas,ocrtext,setOcrtext,refinedtext, setRefinedtext,saveToIndexedDB,deleteOldData,setIsEditing,currentId}= useUniversal()
+ const {
+  saveas,setSaveas,ocrtext,
+  setOcrtext,refinedtext, setRefinedtext,
+  saveToIndexedDB,deleteOldData,setIsEditing,
+  currentId,setSaved}= useUniversal()
 
 
 const modules = {
@@ -65,6 +69,7 @@ const formats = [
             onClick={()=>{
                  deleteOldData(currentId)
                  saveToIndexedDB('db', 'claridb', { Ocr:ocrtext, refined:refinedtext });
+                 setSaved(true)
                  setIsEditing(false)
               
             }}

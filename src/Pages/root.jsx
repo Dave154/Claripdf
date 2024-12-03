@@ -21,8 +21,12 @@ import {useNavigate} from 'react-router-dom'
   const [progress, setProgress] = useState(0);
 
 
- const uploadFile =async(formData)=>{
-  try {
+ const uploadFile =async(files)=>{
+   const formData = new FormData();
+   for(const file of files){
+   formData.append("files", file);
+   }
+    try {
       setProgress(1); 
       const response = await axios.post('https://ocr-backend-jmcd.onrender.com/api/uploadFile ', formData, {
         headers: {
@@ -37,7 +41,11 @@ import {useNavigate} from 'react-router-dom'
       setRefinedtext(response.data.refinedGPTText)
       navigate('/generated')
       // Save data to IndexedDB
+      if(response.data.refinedGPTText && response.data.ocrTexts){
        saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
+      }else{
+        throw Error()
+      }
     } catch (error) {
       console.log(error)
       handleError(error)

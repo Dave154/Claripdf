@@ -3,7 +3,7 @@ import MenuBar from './menuBar.jsx'
  const Navigation = () => {
  	const {sideWidth,windowWidth}=useUniversal()
  	return (
- 		<div className={`fixed top-0  z-10 w-full p-3 flex gap-4 items-center transition-all duration-700 bg-white`}
+ 		<div className={`fixed top-0  z-10 w-full  p-2 flex gap-4 items-center transition-all duration-700 bg-white`}
 
  			style={{
        			 marginLeft:windowWidth>= 768 ? `${sideWidth}px` : '0px',
