@@ -21,9 +21,7 @@ import {useNavigate} from 'react-router-dom'
   const [progress, setProgress] = useState(0);
 
 
- const uploadFile =async(files)=>{
-   const formData = new FormData();
-   formData.append("files", files);
+ const uploadFile =async(formData)=>{
   try {
       setProgress(1); 
       const response = await axios.post('https://ocr-backend-jmcd.onrender.com/api/uploadFile ', formData, {
