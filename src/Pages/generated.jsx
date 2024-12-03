@@ -96,7 +96,7 @@ import Upload from '.././components/upload.jsx'
             setSaveas(false)
           }}
          >
-            <div className="grid bg-stone-100 rounded-xl text-stone-900 gap-3 overflow-auto">
+            <div className="flex flex-col bg-stone-100 rounded-xl text-stone-900 gap-10 overflow-auto">
 
               <p className="font-semibold px-10 py-2">Save file as</p>
               {
@@ -138,7 +138,7 @@ import Upload from '.././components/upload.jsx'
       {
       	 (ocrtext || refinedtext) ? 
 
-       <div className={`text-stone-900 h-[70vh] flex overflow-auto relative`}>
+       <div className={`text-stone-900 h-[70vh] flex overflow-auto relative flex-1`}>
          
         <Loader open={loading} text='Generting text from pdf, please wait....'/>
       

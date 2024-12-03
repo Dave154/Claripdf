@@ -8,7 +8,7 @@ import { IoMdMore } from "react-icons/io";
  	const {setSaveas,setIsEditing} =useUniversal()
  	return (
  		<div className="w-full grid place-items-between py-5 overflow-hidden ">
-            <p className="font-bold text-lg">
+            <p className="font-bold text-lg text-center">
               Text generated from pdf, see below
             </p>
             <div className="border grid place-items-between rounded-xl p-3 bg-white w-full">
