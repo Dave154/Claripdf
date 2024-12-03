@@ -10,7 +10,7 @@ import html2pdf from "html2pdf.js";
 import { saveAs } from "file-saver";
 import { FaArrowLeft,FaFilePdf } from "react-icons/fa";
 import { FaRegFileWord } from "react-icons/fa6";
-
+import Upload from '.././components/upload.jsx'
  const Generated = () => {
      const navigate =useNavigate()
      const {windowWidth, saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute,sideWidth} = useUniversal()
@@ -88,7 +88,7 @@ import { FaRegFileWord } from "react-icons/fa6";
        			 marginLeft:windowWidth>= 768 ? `${sideWidth}px` : '0px',
       			}}
      	>
-         <div className="  w-full p-5 rounded-lg md:rounded-r-lg  grid gap-4 relative">
+         <div className=" h-full w-full p-5 rounded-lg md:rounded-r-lg  flex flex-col gap-4 relative">
         {
           saveas && 
          <div className="fixed right-0 top-0 grid place-content-center backdrop-blur-sm w-full h-full z-40 bg-[rgba(1,1,1,.2)] rounded"
@@ -116,7 +116,7 @@ import { FaRegFileWord } from "react-icons/fa6";
          </div>
         }
 
-	 			<div className="flex justify-between gap-3 ">
+	 	<div className="flex justify-between gap-3 ">
 
         {
           ['scrambled','refined'].map(item=>{
@@ -136,42 +136,28 @@ import { FaRegFileWord } from "react-icons/fa6";
  			</div>
 
       {
-        tab === 'scrambled'?
-          <div className={`text-stone-900 h-[70vh] flex overflow-auto relative`}>
+      	 (ocrtext || refinedtext) ? 
+
+       <div className={`text-stone-900 h-[70vh] flex overflow-auto relative`}>
          
         <Loader open={loading} text='Generting text from pdf, please wait....'/>
-      {
-        ocrtext ? 
+      
+       
           <>
            {
             !isEditing ? 
-            <Preview text={ocrtext}/>
+            <Preview text={tab==='scrambled'? ocrtext: refinedtext}/>
             :
-          <Editor text={ocrtext} where='scrambled'/>
+          <Editor text={tab==='scrambled'? ocrtext: refinedtext} where={tab}/>
            }
           </>
+      
+      </div>
         :
-        <div className="grid place-content-center w-full">
-      <p className='max-w-64 text-center'>
-        Upload a pdf file or series of images in order and let us do the rest
-      </p>
-          
+        <div className="flex-1">
+      	<Upload/>
         </div>
       }
-      </div>
-      :
-      <div className="text-stone-900 h-[70vh] flex overflow-auto relative ">
-        
-          <Loader open={loading} text='Generating'/>
-        {
-          !isEditing ?
-          <Preview text={refinedtext}/>
-          :
-          <Editor text={refinedtext} where='refined'/>
-        }
-        
-      </div>  
-      } 
 	 		</div>
      	</section>
      )

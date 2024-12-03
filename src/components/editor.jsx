@@ -69,7 +69,6 @@ const formats = [
             onClick={()=>{
                  deleteOldData(currentId)
                  saveToIndexedDB('db', 'claridb', { Ocr:ocrtext, refined:refinedtext });
-                 setSaved(true)
                  setIsEditing(false)
               
             }}

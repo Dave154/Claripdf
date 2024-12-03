@@ -39,6 +39,7 @@ const toggleSide=()=>{
 		},[windowWidth])
 
 // Save to indexedDB
+		//
 const openDb=(dbName, storeName) =>{
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(dbName, 1);
@@ -99,7 +100,7 @@ const  saveToIndexedDB=async(dbName, storeName, data) =>{
   };
 
   store.add(mostRecentlyGenerated);
-  transaction.oncomplete = () =>console.log("Data saved successfully.") ;
+  transaction.oncomplete = () =>setSaved(true);
   transaction.onerror = () => console.error("Error saving data.");
 }
 
@@ -112,7 +113,7 @@ const  saveToIndexedDB=async(dbName, storeName, data) =>{
   }
 
 useEffect(()=>{
-	// setSaved(false)
+	setSaved(false)
 	getSaveddata('db', 'claridb')
   .then(data => {
   		const tempHist=[]
@@ -122,15 +123,16 @@ useEffect(()=>{
   	tempHist.sort((a,b)=>new Date(b.timestamp) - new Date(a.timestamp))
   	console.log(tempHist)
   	setHistory(tempHist)
+  	const length=data.length-1
   	if(!ocrtext){
-  	setOcrtext(data[0].data.Ocr)
-  	setRefinedtext(data[0].data.refined)
-  	setCurrentId(data[0].id)
+  	setOcrtext(data[length].data.Ocr)
+  	setRefinedtext(data[length].data.refined)
   	}
+  	setCurrentId(data[length].id)
   })
   .catch(error => console.error('Error retrieving data:', error));
   
-},[ocrtext,refinedtext,saved])
+},[saved])
 
 
 const handleError=(err)=>{

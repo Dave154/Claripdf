@@ -8,7 +8,7 @@
   import { FiDelete } from "react-icons/fi";
   const Sidebar = () => {
   	const navigate=useNavigate()
-  	const {currentRoute,sideWidth,toggleSide,toggle,windowWidth,history,getDataByKey,currentId,deleteOldData,setHistory}=useUniversal()
+  	const {setOcrtext,setRefinedtext,currentRoute,sideWidth,toggleSide,toggle,windowWidth,history,getDataByKey,currentId,deleteOldData,setHistory}=useUniversal()
   	const [historyDates,setHistoryDates]=useState([])
   	const today=new Date().toISOString().split('T')[0]
   		const sidebarStuffs=[
@@ -88,7 +88,7 @@
 			  						 		{
 			  						 			history.map(item=>{
 			  						 				if(item.timestamp === date)
-			  						 				return <li className={`group flex justify-between gap-5 items-center text-lg cursor-pointer py-1 px-2 hover:bg-stone-200 rounded-lg ${item.id===currentId &&'bg-stone-200' }`} key={item.id}
+			  						 				return <li className={`group flex justify-between gap-5 items-center text-lg cursor-pointer py-1 px-2 hover:bg-stone-200 rounded-lg ${(item.id===currentId && currentRoute=== 'Generated')&&'bg-stone-200' }`} key={item.id}
 			  						 					onClick={()=>{
 			  						 						navigate('/generated')
 			  						 						getDataByKey(item.id)
@@ -100,6 +100,10 @@
 			  						 			<i className="text-stone-400 invisible group-hover:visible hover:text-red-400"
 			  						 				onClick={()=>{
 			  						 					deleteOldData(item.id)
+			  						 					if(item.id === currentId){
+			  						 						setOcrtext('')
+			  						 						setRefinedtext('')
+			  						 					}
 			  						 					const temp=history.filter(hist=> hist.id !==item.id)
 			  						 					setHistory(temp)
 			  						 				}
