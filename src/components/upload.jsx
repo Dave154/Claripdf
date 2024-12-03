@@ -122,7 +122,6 @@ const compressfile=async(file)=>{
         console.log(dropFile)
         setDropFile(null)
       }
-    // setCurrentRoute('Home')
 
  },[dropFile])
 

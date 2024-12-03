@@ -83,7 +83,7 @@ import Upload from '.././components/upload.jsx'
   };
 
      return (
-     	<section className={`grid place-items-center h-screen text-stone-100 relative pt-16 transition-all duration-700`}
+     	<section className={`grid place-items-center h-screen text-stone-100 relative pt-10 transition-all duration-700`}
      		style={{
        			 marginLeft:windowWidth>= 768 ? `${sideWidth}px` : '0px',
       			}}

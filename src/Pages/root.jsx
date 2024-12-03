@@ -1,8 +1,13 @@
-import React from 'react'
+import {useEffect} from 'react'
 import Upload from '.././components/upload.jsx'
 import {useUniversal} from '.././context.jsx'
 const Root = () => {
-  const {windowWidth,sideWidth } = useUniversal()
+  const {windowWidth,sideWidth,setCurrentRoute} = useUniversal()
+
+  useEffect(()=>{
+     setCurrentRoute('Home')
+
+  },[])
   return (
     <div className='h-screen transition-all duration-700'
     style={{
