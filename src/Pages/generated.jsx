@@ -137,7 +137,7 @@ import Upload from '.././components/upload.jsx'
       {
       	 (ocrtext || refinedtext) ? 
 
-       <div className={`text-stone-900 h-[70vh] flex overflow-auto relative flex-1`}>
+       <div className={`text-stone-900 h-[70vh] flex overflow-hidden relative flex-1`}>
          
         <Loader open={loading} text='Generting text from pdf, please wait....'/>
       

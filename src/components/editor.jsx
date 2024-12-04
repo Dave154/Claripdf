@@ -13,7 +13,7 @@
   saveas,setSaveas,ocrtext,
   setOcrtext,refinedtext, setRefinedtext,
   saveToIndexedDB,deleteOldData,setIsEditing,
-  currentId,setSaved}= useUniversal()
+  currentId,setSaved,setNotify}= useUniversal()
 
 
 const modules = {
@@ -55,7 +55,7 @@ const formats = [
       }
 
      return (
-         <div className="w-full grid grid-rows-[1fr_40px] gap-3">
+         <div className="w-full grid grid-rows-[1fr_40px] gap-3 overflow-auto">
           <ReactQuill
             value={text}
              onChange={setExtractedText}

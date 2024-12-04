@@ -13,6 +13,7 @@
 - [Technologies Used](#technologies-used)  
 - [Installation](#installation)  
 - [Usage](#usage)  
+- [Notes](#notes)
 - [Live Demo](#live-demo)  
 - [Future Enhancements](#future-enhancements)  
 - [Contributors](#contributors)  
@@ -57,8 +58,14 @@
 ## **Installation**  
 
 ### 1. Clone the Repository  
+ ### **Frontend**
 ```bash
-git clone https://github.com/username/claripdf.git
+git clone https://github.com/Dave154/claripdf
+cd claripdf
+```
+ ### **Backend**
+```bash
+git clone https://github.com/danprecious/ocr-backend
 cd claripdf
 ```
 
@@ -69,6 +76,9 @@ npm install
 ```
 
 #### **Backend:** 
+```bash 
+npm install
+```
 
 ### 4. Run the Application  
 #### **Frontend:**  
@@ -77,7 +87,9 @@ npm run dev
 ```
 
 #### **Backend:**  
-
+```bash
+npm run dev
+```
 
 ---
 
@@ -89,8 +101,17 @@ npm run dev
 5. Download the edited document in your preferred format (PDF or Word).
 
 ---
+## **Notes** 
+1. Due to the usage of free hosting options, our server is a bit limited and because of the intensive process, the processing of some large pdf files cannot be handled.
 
+---
 ## **Live Demo**  
+
+<video width="600" controls>
+  <source src="./public/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 Try Claripdf live: [claripdf.vercel.app](https://claripdf.vercel.app)
 
 ---

@@ -35,6 +35,8 @@ body{
 .quill{
  padding: 2px;
  position: relative;
+ height: 70vh;
+ overflow: auto;
 }
 
 /* Style the toolbar */
