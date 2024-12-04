@@ -107,10 +107,7 @@ npm run dev
 ---
 ## **Live Demo**  
 
-<video width="600" controls>
-  <source src="./public/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Watch the demo video](./public/demo.gif)
 
 Try Claripdf live: [claripdf.vercel.app](https://claripdf.vercel.app)
 
