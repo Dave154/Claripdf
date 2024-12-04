@@ -136,7 +136,7 @@ return (
  			<div className=" text-stone-900 max-w-64 mx-auto flex-grow flex items-center justify-center">
  			{
  				( progress > 0) ?
- 				<Loader open={true} text={  progress !==100 ? 'Uploading file....': 'Generating text from pdf, please wait...'}/>
+ 				<Loader open={true} text={  progress !==100 ? 'Uploading file....': 'Generating text, please wait...'}/>
  				:
  			<p>
  				Upload a pdf file or series of images in order and let us do the rest

@@ -44,9 +44,9 @@
        			 width:windowWidth >= 768 ? `${sideWidth}px` : toggle ? `${sideWidth}px`:'0px',
       			}}
 	  		>
-	  		<div className="flex items-center w-full">
+	  		<div className="flex items-center w-full mt-3">
 	  			<MenuBar/>
-	  			<p className="font-bold text-stone-800 text-lg">Claripdf</p>
+	  			<p className="text-xl font-extrabold text-stone-600 leading-10 text-center">Claripdf</p>
 	  			
 	  		</div>
 	  			<div className="flex flex-col px-2 gap-4 flex-1 overflow-y-auto overflow-x-hidden">
@@ -99,7 +99,7 @@
 			  						 						getDataByKey(item.id)
 			  						 					}}
 			  						 			>
-			  						 			<p className="truncate whitespace-nowrap w-[150px]">
+			  						 			<p className="truncate whitespace-nowrap w-[150px] text-sm">
 			  						 				{item.previewTxt?.replace(/<[^>]+>/g, '')}
 			  						 			</p> 
 			  						 			<i className="text-stone-400 invisible group-hover:visible hover:text-red-400"
