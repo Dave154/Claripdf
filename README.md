@@ -38,16 +38,19 @@
 ### **Frontend:**  
 - ReactJs	 
 - Tailwind CSS  
-- React Quill  
+- React Quill  for text editing
 
 ### **Backend:**  
 - Node.js  
-- Express  
+- Express 
+- Sharp for image preprocessing
+- pdf.js and Canvas package for pdf to image conversion
 - Tesseract.js (OCR)  
-- ChatGPT AI for text refinement  
+- Ai Model: HuggingFaceH4/starchat2-15b-v0.1 for text refinement
 
 ### **Deployment:**  
 - Vercel  
+- Render
 
 ---
 
