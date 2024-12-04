@@ -107,7 +107,7 @@ npm run dev
 ---
 ## **Live Demo**  
 
-[Watch the demo video](./public/demo.mp4)
+[Watch the demo video](./public/demo.gif)
 
 Try Claripdf live: [claripdf.vercel.app](https://claripdf.vercel.app)
 
