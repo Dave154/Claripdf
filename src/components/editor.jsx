@@ -1,4 +1,4 @@
- import React from 'react'
+ import {useEffect} from 'react'
  import ReactQuill from "react-quill";
  import "react-quill/dist/quill.snow.css";
  import {useUniversal} from '.././context.jsx'
@@ -6,6 +6,9 @@
 
 
  const Editor = ({text,where}) => {
+
+
+
  const {
   saveas,setSaveas,ocrtext,
   setOcrtext,refinedtext, setRefinedtext,
@@ -16,12 +19,12 @@
 const modules = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
-    ["bold", "italic", "underline", "strike"],
+    ["bold", "italic", "underline",],
     [{ list: "ordered" }, { list: "bullet" }],
-    ["blockquote", "code-block"],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }],
-    ["link", "image"],
+    // ["blockquote", "code-block"],
+    // [{ color: [] }, { background: [] }],
+    // [{ align: [] }],
+    // ["link", "image"],
     ["clean"], // Remove formatting button
   ],
 };

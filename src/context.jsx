@@ -118,7 +118,7 @@ useEffect(()=>{
   .then(data => {
   		const tempHist=[]
   	data.map(item=>{
-  		tempHist.unshift({previewTxt:item.data.refined?.slice(0,25), id:item.id,timestamp:new Date(item.timestamp).toISOString().split('T')[0] })
+  		tempHist.unshift({previewTxt:item.data.refined, id:item.id,timestamp:new Date(item.timestamp).toISOString().split('T')[0] })
   	})
   	tempHist.sort((a,b)=>new Date(b.timestamp) - new Date(a.timestamp))
   	console.log(tempHist)

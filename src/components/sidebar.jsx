@@ -94,7 +94,7 @@
 			  						 						getDataByKey(item.id)
 			  						 					}}
 			  						 			>
-			  						 			<p className="line-clamp-1 whitespace-nowrap overflow-hidden">
+			  						 			<p className="truncate whitespace-nowrap w-[150px]">
 			  						 				{item.previewTxt?.replace(/<[^>]+>/g, '')}
 			  						 			</p> 
 			  						 			<i className="text-stone-400 invisible group-hover:visible hover:text-red-400"

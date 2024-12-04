@@ -45,8 +45,6 @@ body{
   z-index: 3;
   display: flex;
   width: 100%;
-  overflow-x: scroll;
-  overflow-y: visible !important;
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px 8px 0 0;
