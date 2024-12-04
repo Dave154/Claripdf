@@ -18,7 +18,11 @@ const AppContext = React.createContext()
   const [history,setHistory]=useState([])
   const [currentId,setCurrentId]=useState(null)
   const [saved,setSaved]=useState(false)
-
+  const [notify,setNotify]=useState({
+    bool:false,
+    message:'Saved',
+    type:'success'
+  })
 const toggleSide=()=>{
 	setToggle(!toggle)
 	if(toggle){
@@ -66,6 +70,8 @@ const deleteOldData=async (id) =>{
     const store = transaction.objectStore(storeName);
     const request = store.delete(id); // Delete the record by key
     request.onsuccess = () => {
+      setNotify({bool:true,message:'Deleted',type:'error'})
+      
       resolve();
     };
     request.onerror = () => reject(request.error);
@@ -100,7 +106,10 @@ const  saveToIndexedDB=async(dbName, storeName, data) =>{
   };
 
   store.add(mostRecentlyGenerated);
-  transaction.oncomplete = () =>setSaved(true);
+  transaction.oncomplete = () =>{
+    setSaved(true);
+    setNotify({bool:true,message:'Saved',type:'success'})
+  }
   transaction.onerror = () => console.error("Error saving data.");
 }
 
@@ -187,7 +196,9 @@ const handleError=(err)=>{
 		currentId,
 		deleteOldData,
 		saved,
-		setSaved
+		setSaved,
+    notify,
+    setNotify
  	}}>
  		{children}
  	</AppContext.Provider>

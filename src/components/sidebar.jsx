@@ -39,7 +39,7 @@
 		}
 		>
 			
-	  		<aside className={`bg-stone-50 h-full overflow-x-hidden  shadow transition-all duration-700 border-r flex flex-col gap-3 `}
+	  		<aside className={`bg-stone-50 h-full overflow-x-hidden shadow transition-all duration-700 border-r flex flex-col gap-3 `}
 	  			style={{
        			 width:windowWidth >= 768 ? `${sideWidth}px` : toggle ? `${sideWidth}px`:'0px',
       			}}
@@ -71,7 +71,8 @@
 			  			<div className={`${(windowWidth >= 768 && sideWidth !=='50') && 'invisible opacity-0' } transition duration-500 px-3`} onClick={toggleSide}>
 			  				<FaHistory/>
 			  			</div>
-			  			 
+			  			 {
+			  			 	history.length > 0 ?
 			  			<div className={`flex flex-col gap-5 ${sideWidth ==='50' && 'invisible h-0 opacity-0 overflow-hidden'}  transition duration-500 delay-200`}>
 
 			  				{
@@ -116,7 +117,10 @@
 			  						</ul>
 			  					})	
 			  				}
-			  			</div>
+			  			</div> :
+
+			  			<p className={`px-2  ${sideWidth ==='50' && 'invisible h-0 opacity-0 overflow-hidden'}  transition duration-500 delay-200`}>No history</p>
+			  			 }
 	  			</div>
 	  		</aside>
 		</section>

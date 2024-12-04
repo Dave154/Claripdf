@@ -9,10 +9,10 @@ import MenuBar from './menuBar.jsx'
        			 marginLeft:windowWidth>= 768 ? `${sideWidth}px` : '0px',
       			}}
  		>
- 			<div className="md:hidden -mt-5">
+ 			<div className="md:hidden ">
  				<MenuBar/>
  			</div>
- 			 <h2 className="text-lg font-extrabold text-stone-600 leading-10 text-center">
+ 			 <h2 className="text-lg font-extrabold text-stone-600 leading-10 text-center hidden md:block">
  			 	ClariPdf
  			 </h2>
  		</div>

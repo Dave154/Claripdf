@@ -96,13 +96,13 @@ import Upload from '.././components/upload.jsx'
             setSaveas(false)
           }}
          >
-            <div className="flex flex-col bg-stone-100 rounded-xl text-stone-900 gap-10 overflow-auto">
+            <div className="flex flex-col bg-stone-100 rounded-xl text-stone-900 gap-4 overflow-auto">
 
               <p className="font-semibold px-10 py-2">Save file as</p>
               {
                 saveMethodList.map(item=>{
 
-                return <button key={item.method} onClick={()=>handleDownload(item.method)} className='capitalize px-5 hover:bg-stone-200 py-2 flex  items-center'>
+                return <button key={item.method} onClick={()=>handleDownload(item.method)} className='capitalize px-5 hover:bg-stone-200 py-2 flex items-center'>
                 	<i className="basis-[10%] text-xl">
                 		{item.icon}
                 	</i>

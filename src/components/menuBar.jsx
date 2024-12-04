@@ -5,7 +5,7 @@
   	const {toggleSide}=useUniversal()
 
  	return (
- 		<div className="flex justify-between pt-5 px-4 h-[40px]">
+ 		<div className="flex justify-between  px-4 h-[40px]">
 	  				<button className="text-lg text-stone-600"
 	  					onClick={toggleSide}
 	  				><FaBarsStaggered/></button>
