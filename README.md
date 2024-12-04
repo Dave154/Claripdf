@@ -36,7 +36,7 @@
 
 ## **Technologies Used**  
 ### **Frontend:**  
-- React  
+- ReactJs	 
 - Tailwind CSS  
 - React Quill  
 
@@ -99,8 +99,8 @@ Try Claripdf live: [claripdf.vercel.app](https://claripdf.vercel.app)
 ---
 
 ## **Contributors**  
-- **David Okpe** ([GitHub](https://github.com/davidokpe))  
-- **Kayode Dan Precious** ([GitHub](https://github.com/kayodedanprecious))
+- **David Okpe** ([GitHub](https://github.com/Dave154))  
+- **Kayode Dan Precious** ([GitHub](https://github.com/danprecious))
 
 ---
 
@@ -111,5 +111,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ### **Contact**  
 For inquiries or feedback, please reach out to:  
-- **David Okpe**: david@example.com  
-- **Kayode Dan Precious**: kayode@example.com
+- **David Okpe**: okpedavid0@gmail.com  
+- **Kayode Dan Precious**:	kdpcoder@gmail.com
