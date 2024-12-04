@@ -44,7 +44,11 @@
        			 width:windowWidth >= 768 ? `${sideWidth}px` : toggle ? `${sideWidth}px`:'0px',
       			}}
 	  		>
+	  		<div className="flex items-center w-full">
 	  			<MenuBar/>
+	  			<p className="font-bold text-stone-800 text-lg">Claripdf</p>
+	  			
+	  		</div>
 	  			<div className="flex flex-col px-2 gap-4 flex-1 overflow-y-auto overflow-x-hidden">
 			  			<ul className="flex flex-col gap-3">
 			  				{

@@ -38,11 +38,12 @@ import {FaUpload} from 'react-icons/fa6'
         },
       });
       setOcrtext(response.data.ocrTexts)
-      setRefinedtext(response.data.refinedGPTText)
+      console.log(response.data)
+      setRefinedtext(response.data.refinedText)
       navigate('/generated')
       // Save data to IndexedDB
-      if(response.data.refinedGPTText && response.data.ocrTexts){
-       saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedGPTText });
+      if(response.data.refinedText && response.data.ocrTexts){
+       saveToIndexedDB('db', 'claridb', { Ocr:response.data.ocrTexts, refined: response.data.refinedText });
       }else{
         throw Error()
       }

@@ -13,7 +13,7 @@ import { FaRegFileWord } from "react-icons/fa6";
 import Upload from '.././components/upload.jsx'
  const Generated = () => {
      const navigate =useNavigate()
-     const {windowWidth, saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute,sideWidth} = useUniversal()
+     const {windowWidth, saveas, setSaveas, isEditing, setIsEditing, ocrtext ,refinedtext,setCurrentRoute,sideWidth,setNotify} = useUniversal()
      const [loading, setLoading] = useState(false)
      const [tab, setTab] = useState('scrambled')
 
@@ -123,7 +123,6 @@ import Upload from '.././components/upload.jsx'
             return (
  				<button key={item} className={`${item === tab ? 'bg-stone-900':'bg-stone-400'}  w-28 text-sm p-2 rounded-2xl capitalize`}
           onClick={()=>{
-
             setTab(item)
           }
         }
