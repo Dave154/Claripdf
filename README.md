@@ -1,6 +1,6 @@
 
 # **Claripdf**  
-**Transforming Image-Based PDFs into Editable and Searchable Documents**  
+**Transforming Image Based PDFs into Editable and Searchable Documents**  
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-claripdf.vercel.app-blue)](https://claripdf.vercel.app)  
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)  
